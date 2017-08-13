@@ -17,21 +17,92 @@
 </head>
 <body>
 
-<div class="jumbotron">
-	<h1>HEY THERE</h1>
+<!-- Container for game instructions -->
+<div class = "container">
+	<div class="jumbotron">
+		<h1>Crystals Collector</h1>
+		<h3>You will be given a random number at the start of the game</h3>
+		<h3>There are four crystals below. By clicking on a crystal you will add a specific amount of points to your total score.</h3>
+		<h3>You win the game by matching your total score to random number, you lose the game if your total score goes above the random number.</h3>
+		<h3>The value of each crystal is hidden from your until you click on it.</h3>
+		<h3>Each time when the game starts, the game will change the values of each crystal.</h3>
+	</div>
 </div>
 
+<!-- Container for scores -->	
+<div class = "container">	
+	<div class = "panel panel-default">
+		<div class = "random-number"></div>
+		<div class = "current-score"></div>
+		<div class = "score">
+			<div class = "wins"></div>
+			<div class = losses></div>
+		</div>
+	</div>
+</div>
+
+<!-- Container for crystals -->
+<div class = "container">
+	<div class = "panel panel-default image-panel">
+		<div class = "row">
+				<img class = "img-responsive col-md-3 crystal crystal-1" src="assets\images\blue-crystal.png">
+				<img class = "img-responsive col-md-3 crystal crystal-2" src="assets\images\green-crystal.png">
+				<img class = "img-responsive col-md-3 crystal crystal-3" src="assets\images\red-crystal.png">
+				<img class = "img-responsive col-md-3 crystal crystal-4" src="assets\images\yellow-crystal.jpg">
+		</div>
+	</div>
+</div>
 
 
 <!-- ....................... JQUERY CODING............................. -->
 <script type="text/javascript">
-var myTest = 6 + 8;
-console.log("Yes " + myTest);
+//Crystals are valued between 1 - 12
+//Total score is valued between 19 - 120
+
+
+// Set starting variables
+var randonNumber = "";
+var currentScore = 0;
+var wins = 0;
+var losses = 0;
 
 
 
 
+$(document).ready(function(){
+	function startGame(){
+	currentScore = 0;
+	randomNumber = Math.floor((Math.random() * 102) + 19);
+	$(".random-number").html("<h2>Get this number: " + randomNumber + "</h2>");
+	$(".current-score").html("<h2> Current score: " + currentScore + "</h2>");
+	$(".wins").html("<h4> Wins: " + wins + "</h4>")
+	$(".losses").html("<h4> Losses: " + losses + "</h4>")
+	$(".crystal-1").attr("data-number", Math.floor(Math.random() * 12) + 1); 
+	$(".crystal-2").attr("data-number", Math.floor(Math.random() * 12) + 1);
+	$(".crystal-3").attr("data-number", Math.floor(Math.random() * 12) + 1);
+	$(".crystal-4").attr("data-number", Math.floor(Math.random() * 12) + 1);
+	}
+	startGame();
+	$(".crystal").on("click", function(){
+		currentScore += parseFloat($(this).attr("data-number"));
+		$(".current-score").html("<h2> Current score: " + currentScore + "</h2>");
+		if (currentScore === randomNumber){
+		wins++;
+		$(".wins").html("<h4> Wins: " + wins + "</h4>")
+		startGame();
+		alert("Way to go!");
+		}
+		if (currentScore > randomNumber){
+		losses++;
+		$(".losses").html("<h4> Losses: " + losses + "</h4>")
+		startGame();
+		alert("Try again!");
+		}
+	
+	});
+	
 
+});
 
 </script>
 </body>
